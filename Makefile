@@ -12,7 +12,7 @@ help:
 	@echo "  make ps      - Lista el estado de los contenedores."
 	@echo "  make shell   - Entra al shell psql dentro del contenedor para hacer consultas."
 	@echo "  make clean   - Detiene y elimina con vervosidad."
-	@echo "  make run     - Corre el programa."
+	@echo "  make test     -Corre el programa."
 
 # Levanta el contenedor en segundo plano (detached)
 up:
@@ -41,10 +41,10 @@ shell:
 clean:
 	docker compose down -v
 
-run: restart
+test: restart
 	@echo "\nLevantando el programa, espere por favorcito..."
 	sleep 10
 	@echo "\nCorriendo la suite de tests de prueba:"
 	go test -v ./db/sqlc
-	@echo "Arrancando el servidor \n"
-	go run main.go
+	@echo "\nBorrando contenedores y volúmenes viejos..."
+	docker compose down -v
