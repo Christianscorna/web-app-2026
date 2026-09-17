@@ -12,39 +12,43 @@ help:
 	@echo "  make ps      - Lista el estado de los contenedores."
 	@echo "  make shell   - Entra al shell psql dentro del contenedor para hacer consultas."
 	@echo "  make clean   - Detiene y elimina con vervosidad."
-	@echo "  make test     -Corre el programa."
+	@echo "  make test    - Corre el programa."
 
-# Levanta el contenedor en segundo plano (detached)
 up:
 	docker compose up -d
 
-# Detiene y elimina el contenedor y sus recursos
 down:
 	docker compose down
 
-# Detiene y levanta de nuevo el contenedor
 restart:
 	docker compose down && docker compose up -d
 
-# Ver los logs del contenedor de Postgres
 logs:
 	docker compose logs -f database
 
-# Ver el estado de los contenedores
 ps:
 	docker compose ps
 
-# Conectarse a la base de datos a través de psql dentro del contenedor
 shell:
 	docker compose exec database psql -U postgres -d web_db
 
 clean:
 	docker compose down -v
 
-test: restart
-	@echo "\nLevantando el programa, espere por favorcito..."
-	sleep 10
+wait-db:
+	@echo "Esperando a que PostgreSQL este listo..."
+	@until docker compose exec -T database pg_isready -U postgres -d web_db > /dev/null 2>&1; do \
+		echo "  [Aún no lista, reintentando en 1s...]"; \
+		sleep 1; \
+	done
+	@echo "La bbdd esta lista y aceptando conexiones"
+
+test: restart wait-db
+	@echo "\generando código sqlc"
+	~/go/bin/sqlc generate
+
 	@echo "\nCorriendo la suite de tests de prueba:"
-	go test -v ./db/sqlc
+	go test -v ./db/tests
+	
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v
