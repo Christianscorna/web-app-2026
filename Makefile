@@ -52,3 +52,19 @@ test: restart wait-db
 	
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v
+
+hurl-test: down up
+	@echo "Pre instalando hurl..."
+	INSTALL_DIR=/tmp
+	VERSION=8.0.0
+	curl --silent --location https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl-$VERSION-x86_64-unknown-linux-gnu.tar.gz | tar xvz -C $INSTALL_DIR
+	export PATH=$INSTALL_DIR/hurl-$VERSION-x86_64-unknown-linux-gnu/bin:$PATH
+
+	@echo "Levantando servidor de go..."
+	go run .
+
+	@echo "Corriendo pruebas de hurl..."
+	hurl tests/hurl/*.hurl
+
+	@echo "\nBorrando contenedores y volúmenes viejos..."
+	docker compose down -v
