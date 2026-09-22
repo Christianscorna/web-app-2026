@@ -41,7 +41,7 @@ tp-especial/
 
 Para ejecutar este proyecto es necesario tener instalado sqlc. Puedes descargarlo desde la terminal con los siguientes comandos. 
 
-> go get gorm.io/gorm
+> go get gorm.io/gorm <br>
 > go get gorm.io/driver/postgres
 
 Descarga este proyecto y abrelo con tu terminal preferida. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make test` Si todo ha salido bien, deberías ver mensajes en pantalla de los test pasando correctamente
