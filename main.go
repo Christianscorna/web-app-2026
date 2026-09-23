@@ -18,7 +18,7 @@ func main() {
 		return
 	}
 
-  // la coneccion se cierra
+  	// la coneccion se cierra
 	defer conn.Close()
 
 	queries := db.New(conn)
@@ -27,7 +27,10 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static")) // luego hay que ver como mapear los archivos html con los handlers
 
 	http.Handle("/", fileServer)
+	
 	http.Handle("/materias", materiashandler)
+	http.Handle("/materias/", materiashandler)
+	http.Handle("/materias/{id}", materiashandler)
 
 	log.Println("Servidor escuchando en http://localhost:8080")
 	err = http.ListenAndServe(":8080", nil)

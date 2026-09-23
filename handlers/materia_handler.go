@@ -30,11 +30,16 @@ func extractIDFromPath(path string) (int, bool, error) {
 		return 0, false, nil
 	}
 
+	// TrimPrefix hace que si el path es "/materias/5" se quede con "5"
 	idText := strings.TrimPrefix(path, "/materias/")
+	fmt.Println("ID extraído del path:", idText)
+
+	// Atoi convierte el string a int, si no puede devuelve un error
 	id, err := strconv.Atoi(idText)
 	if err != nil || id <= 0 {
 		return 0, true, fmt.Errorf("ID inválido")
 	}
+	
 	return id, true, nil
 }
 
