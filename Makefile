@@ -53,12 +53,9 @@ test: restart wait-db
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v
 
-hurl-test: down up
-	@echo "Levantando servidor de go..."
-	go run .
-
+hurl-test: restart wait-db
 	@echo "Corriendo pruebas de hurl..."
-	hurl tests/hurl/*.hurl
+	hurl --test request.hurl
 
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v

@@ -34,6 +34,8 @@ tp-especial/
 |-- main.go
 |-- README.md
 └── static/
+    |-- crear_materia.html
+    |-- crear_pregunta.html
     └── index.html
 ```
 
