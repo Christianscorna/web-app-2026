@@ -55,4 +55,4 @@ Para la ejecución de la suit de pruebas con hurl necesitas tener instalado hurl
 > curl --silent --location https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl-$VERSION-x86_64-unknown-linux-gnu.tar.gz | tar xvz -C $INSTALL_DIR <br>
 > export PATH=$INSTALL_DIR/hurl-$VERSION-x86_64-unknown-linux-gnu/bin:$PATH 
 
-Finalmente, ejecuta `make hurl-test` para poder ejecutar la suit de pruebas con hURL. 
+Ejecuta el comando `make run` y espera a que quede activo el servidor. Una vez con el servidor escuchando, abre una nueva terminal y ejecuta `make hurl-test` para correr la suit de pruebas con hURL. 

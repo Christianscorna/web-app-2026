@@ -1,23 +1,46 @@
 # request.hurl
 
-# obtener todas las materias
-GET http://localhost:8080/materias
-HTTP 200
-
-# obtener la materia de id 2
-GET  http://localhost:8080/materias/2
-HTTP 200
-
-# DELETE http://localhost:8080/materias/3
-# HTTP 204
-
 POST http://localhost:8080/materias
-Content-Type : application/json
+Content-Type: application/json
 {
-    "nombre" : "Programación Web",
-    "descripcion" : {
-        "String" : "Materia correspondiente a 3er año de Ing Sistemas, dicatada x Ale y Alfre",
-        "Valid" : true
+    "nombre": "Programación Web Hurl",
+    "descripcion": {
+        "String": "Materia creada por la prueba de integración",
+        "Valid": true
     }
 }
 HTTP 201
+[Captures]
+materia_id: jsonpath "$.id_materia"
+
+GET http://localhost:8080/materias
+HTTP 200
+[Asserts]
+jsonpath "$[*].id_materia" contains {{materia_id}}
+
+GET http://localhost:8080/materias/{{materia_id}}
+HTTP 200
+[Asserts]
+jsonpath "$.nombre" == "Programación Web Hurl"
+
+PUT http://localhost:8080/materias/{{materia_id}}
+Content-Type: application/json
+{
+    "nombre": "Programación Web Hurl actualizada",
+    "descripcion": {
+        "String": "Materia actualizada por la prueba de integración",
+        "Valid": true
+    }
+}
+HTTP 204
+
+GET http://localhost:8080/materias/{{materia_id}}
+HTTP 200
+[Asserts]
+jsonpath "$.nombre" == "Programación Web Hurl actualizada"
+
+DELETE http://localhost:8080/materias/{{materia_id}}
+HTTP 204
+
+GET http://localhost:8080/materias/{{materia_id}}
+HTTP 404

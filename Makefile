@@ -1,6 +1,6 @@
 # Makefile para gestionar la Base de Datos PostgreSQL con Docker Compose
 
-.PHONY: up down restart logs ps shell help
+.PHONY: up down restart logs ps shell help test hurl-test
 
 # Comando por defecto (ayuda)
 help:
@@ -53,9 +53,5 @@ test: restart wait-db
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v
 
-hurl-test: restart wait-db
-	@echo "Corriendo pruebas de hurl..."
-	hurl --test request.hurl
-
-	@echo "\nBorrando contenedores y volúmenes viejos..."
-	docker compose down -v
+run: restart wait-db
+	go run .

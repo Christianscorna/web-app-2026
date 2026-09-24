@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"net/http"
 	"strconv"
 	"strings"
-
+	"fmt"
+	
 	"ejemplo.com/tp-especial/db/sqlc"
 )
 
@@ -32,7 +34,6 @@ func extractIDFromPath(path string) (int, bool, error) {
 
 	// TrimPrefix hace que si el path es "/materias/5" se quede con "5"
 	idText := strings.TrimPrefix(path, "/materias/")
-	fmt.Println("ID extraído del path:", idText)
 
 	// Atoi convierte el string a int, si no puede devuelve un error
 	id, err := strconv.Atoi(idText)
@@ -62,6 +63,10 @@ func (h *MateriaHandler) getMateriaByID(w http.ResponseWriter, r *http.Request, 
 	w.Header().Set("Content-Type", "application/json")
 	materia, err := h.queries.GetMateria(r.Context(), int32(id))
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			throwingError(w, http.StatusNotFound, "Materia no encontrada")
+			return
+		}
 		throwingError(w, http.StatusInternalServerError, "Error al obtener la materia")
 		return
 	}
@@ -88,6 +93,7 @@ func (h *MateriaHandler) createMateria(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(w).Encode(createdMateria)
 	if err != nil {
 		throwingError(w, http.StatusInternalServerError, "Error al codificar la materia creada")
@@ -126,6 +132,11 @@ func (h *MateriaHandler) deleteMateria(w http.ResponseWriter, r *http.Request, i
 }
 
 func (h *MateriaHandler) handleMaterias(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/materias" && r.URL.Path != "/materias/" && !strings.HasPrefix(r.URL.Path, "/materias/") {
+		throwingError(w, http.StatusNotFound, "Ruta no encontrada")
+		return
+	}
+
 	id, hasID, err := extractIDFromPath(r.URL.Path)
 	if err != nil {
 		throwingError(w, http.StatusBadRequest, "ID inválido")
@@ -141,6 +152,10 @@ func (h *MateriaHandler) handleMaterias(w http.ResponseWriter, r *http.Request) 
 		}
 
 	case http.MethodPost:
+		if hasID {
+			throwingError(w, http.StatusMethodNotAllowed, "POST solo está disponible en /materias")
+			return
+		}
 		h.createMateria(w, r)
 
 	case http.MethodPut:

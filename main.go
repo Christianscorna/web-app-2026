@@ -24,16 +24,15 @@ func main() {
 	queries := db.New(conn)
 	materiashandler := handlers.NewMateriaHandler(queries)
 
-	fileServer := http.FileServer(http.Dir("./static")) // luego hay que ver como mapear los archivos html con los handlers
-
-	http.Handle("/", fileServer)
-	
-	http.Handle("/materias", materiashandler)
-	http.Handle("/materias/", materiashandler)
-	http.Handle("/materias/{id}", materiashandler)
+	mux := http.NewServeMux()
+	mux.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css"))))
+	mux.Handle("/imagenes/", http.StripPrefix("/imagenes/", http.FileServer(http.Dir("./imagenes"))))
+	mux.Handle("/materias", materiashandler)
+	mux.Handle("/materias/", materiashandler)
+	mux.Handle("/", http.FileServer(http.Dir("./static")))
 
 	log.Println("Servidor escuchando en http://localhost:8080")
-	err = http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8080", mux)
 
 	if err != nil {
 		log.Fatal(err)
