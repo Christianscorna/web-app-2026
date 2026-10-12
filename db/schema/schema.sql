@@ -26,3 +26,9 @@ CREATE TABLE opcion (
 
     ON DELETE CASCADE
 );
+
+
+INSERT INTO materia (nombre, descripcion)
+VALUES 
+    ('Sistemas Operativos', 'Materia de 3er año de IS, dictada por Alejandro Zunino y Matias Hirch'),
+    ('Programación Web', 'Materia de 3er año de IS, segundo cuatrimestre, dictada por Alejandro Zunino y Alfredo Teyseyre');

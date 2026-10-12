@@ -21,19 +21,19 @@ func main() {
 	queries := db.New(conn)
 	materiaHandler := handlers.NewMateriaHandler(queries)
 	preguntasHandler := handlers.NewPreguntaHandler(queries)
-	// opcionesHandler := handlers.NewOpcionHandler(queries)
+	opcionesHandler := handlers.NewOpcionHandler(queries)
 
 	mux := http.NewServeMux()
 	mux.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css"))))
 	mux.Handle("/", http.FileServer(http.Dir("./static")))
-	// mux.Handle("/imagenes/", http.StripPrefix("/imagenes/", http.FileServer(http.Dir("./imagenes"))))
+	mux.Handle("/imagenes/", http.StripPrefix("/imagenes/", http.FileServer(http.Dir("./imagenes"))))
 
 	mux.Handle("/materias", materiaHandler)
 	mux.Handle("/materias/", materiaHandler)
 	mux.Handle("/preguntas", preguntasHandler)
 	mux.Handle("/preguntas/", preguntasHandler)
-	// mux.Handle("/opciones", opcionesHandler)
-	// mux.Handle("/opciones/", opcionesHandler)
+	mux.Handle("/opciones", opcionesHandler)
+	mux.Handle("/opciones/", opcionesHandler)
 
 	log.Println("Servidor escuchando en http://localhost:8080")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
