@@ -54,6 +54,8 @@ test: restart wait-db
 	docker compose down -v
 
 run: restart wait-db
+	~/go/bin/sqlc generate
+
 	@set -e; \
 	server_bin=$$(mktemp); server_pid=; \
 	cleanup() { \

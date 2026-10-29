@@ -2,4 +2,3 @@ css/
 imagenes/
 sqlc/
 *.txt
-opcion_handler.go
