@@ -22,9 +22,25 @@ Entidades:
  - Atributos: idOpción, texto, es_valida, idPregunta
  - Descripción: Opcion asociada a una materia. Se establece si es válida o no para comparar con la respuesta del jugador. 
 
+#### Tp 1
 Aprendimos a levantar nuestro propio servidor web en Go que sirve un documento simple HTML. Tambien aprendimos a escribir nuestras primeras líneas de un documento web incluyendo un título, un párrafo y una cabecera con metadata.
 
+#### Tp 2
 Durante la segunda parte de nuestra aplicación, creamos las tablas que van a dar persistencia a las entidades del proyecto y ejecutamos una serie de pruebas unitarias para verificar el correcto funcionamiento de las operaciones CRUD en todas las tablas. 
+
+#### Tp 3
+Durante esta tercera parte del proyecto hemos aprendido a controlar los endpoints de nuestra aplicación para que responda a cada una de las distintas solicitudes HTTP. Aprendimos sobre códigos de estado y a escribir consutlas cURL y a automatizarlas pruebas mediante un archivo de pruebas hURL. 
+
+#### Tp 4
+Esta parte del trabajo ha sido omitida por la cátedra para la entrega por cuestiones de tiempo. 
+
+#### Tp 5 
+En esta parte del proyecto hemos trabajado con Renderizado del Lado del Servidor con Templ, una tecnología que tal como lo hicimos con sqlc generate en su momento, nos permite generar código go automáticamente a raiz de los templates de código html. 
+
+### Sobre la arquitectura del proyecto
+Este proyecto utiliza una combinación de arquitectura cliente-servidor y organización por capas. El navegador funciona como cliente y se comunica mediante HTTP con el servidor desarrollado en go. La app se organiza en distintas responsabilidades: la capa de acceso a datos, capa de handlers y la capa de presentación. 
+
+Este modo de organización permite organizar el código, facilitar su mantenimiento, entendimiento y distinción entre las diferentes partes de la lógica ya sea que este relacionada con la persistencia, procesamiento de solicitudes HTTP o atender a la interfaz de usuario. 
 
 ### Estructura del Proyecto
 
