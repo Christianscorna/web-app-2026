@@ -12,11 +12,17 @@
     <!-- Las materias es posible verificarlas pero no así las consignas -->
 
     <form action="" method="post">
-        <label for=""> Materia asociada: <input type="text" placeholder="p. e: Redes I"> </label>
-        <!-- Si viene del enlace anterior debería acarrear el nombre y autocompletarlo -->
+        <label for=""> Materia asociada: </label>
+        <select name="" id="materia_asociada">
+            <option value="1">valor 1</option>
+            <option value="2">valor 2</option>
+            <option value="3">valor 3</option>
+        </select>
+        
+        <label for="">Enunciado: </label>
+        <input type="text" placeholder="p. e: Redes I"> 
 
-        <label for=""> Enunciado: <input type="text" placeholder="p. e: ¿Qué es TCP?"> </label>
-        <p>Agrega sus opciones, recuerda que una de ellas debe ser la verdadera</p>
+        <p>Agrega sus opciones, marca la que sea verdadera</p>
         <ul>
             <li> <label for=""> <input type="radio" name="opcion" value="1"> Opción 1: <input type="text" name="" id=""> </label> </li>
             <li> <label for=""> <input type="radio" name="opcion" value="2"> Opción 2: <input type="text" name="" id=""> </label> </li>
@@ -24,8 +30,12 @@
             <li> <label for=""> <input type="radio" name="opcion" value="4"> Opción 4: <input type="text" name="" id=""> </label> </li>
             <!-- Acá puede saltar un parrafito de "recuerda seleccionar la verdadera" -->
         </ul>
+
+        <!-- Se guarda en la base de datos 
+        No lo hacemos aqui porque nos van a quitar los *.js -->
+        <button type="submit">Guardar pregunta</button>
     </form>
 
-    <a href="/static/index.html">Volver al inicio</a>
+    <a href="index.html">Volver al inicio</a>
 </body>
 </html>

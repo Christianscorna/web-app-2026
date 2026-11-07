@@ -1,0 +1,40 @@
+package views
+
+import (
+	"fmt"
+
+	db "ejemplo.com/tp-especial/db/sqlc"
+)
+
+templ EditarPreguntaPage(pregunta db.Preguntum, opciones []db.Opcion, materias []db.Materium) {
+	@Layout("Modificar pregunta", editarPreguntaContent(pregunta, opciones, materias))
+}
+
+templ editarPreguntaContent(pregunta db.Preguntum, opciones []db.Opcion, materias []db.Materium) {
+	<h1>Modificar pregunta</h1>
+	<form action={ templ.URL("/editar-pregunta?id=" + fmt.Sprint(pregunta.IDPregunta)) } method="POST">
+		<label for="materia">Materia asociada</label>
+		<select id="materia" name="id_materia" required>
+			for _, materia := range materias {
+				<option value={ fmt.Sprint(materia.IDMateria) } selected?={ materia.IDMateria == pregunta.IDMateria }>{ materia.Nombre }</option>
+			}
+		</select>
+
+		<label for="enunciado">Enunciado</label>
+		<input id="enunciado" name="enunciado" value={ pregunta.Enunciado } required />
+
+		<fieldset>
+			<legend>Opciones</legend>
+			for i, opcion := range opciones {
+				<label>
+					<input type="hidden" name={ fmt.Sprintf("opcion_id_%d", i + 1) } value={ fmt.Sprint(opcion.IDOpcion) } />
+					<input type="radio" name="opcion_correcta" value={ fmt.Sprint(i + 1) } checked?={ opcion.EsCorrecta } required?={ i == 0 } />
+					Opción { fmt.Sprint(i + 1) }
+					<input type="text" name={ fmt.Sprintf("opcion_%d", i + 1) } value={ opcion.Texto } required />
+				</label>
+			}
+		</fieldset>
+		<button type="submit">Guardar cambios</button>
+	</form>
+	<a href={ templ.URL("/preguntas?materia=" + fmt.Sprint(pregunta.IDMateria)) }>Volver a preguntas</a>
+}

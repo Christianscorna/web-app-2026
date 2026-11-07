@@ -1,0 +1,46 @@
+package views
+
+import (
+	"fmt"
+
+	db "ejemplo.com/tp-especial/db/sqlc"
+)
+
+// Muestra las acciones disponibles y las preguntas de la materia elegida.
+templ GestionPreguntasPage(materias []db.Materium, materia db.Materium, preguntas []db.Preguntum) {
+	@Layout("Administrar preguntas", gestionPreguntasContent(materias, materia, preguntas))
+}
+
+templ gestionPreguntasContent(materias []db.Materium, materia db.Materium, preguntas []db.Preguntum) {
+	<h1>Administrar preguntas</h1>
+	<p>Seleccioná una materia para crear, modificar o eliminar sus preguntas.</p>
+
+	@BuscadorMateria(materias, materia.Nombre)
+
+	if materia.IDMateria != 0 {
+		<header>
+			<h2>{ materia.Nombre }</h2>
+			<a href={ templ.URL("/crear-pregunta?materia=" + fmt.Sprint(materia.Nombre)) } role="button">
+				Crear nueva pregunta
+			</a>
+		</header>
+
+		if len(preguntas) == 0 {
+			<p>Todavía no hay preguntas para esta materia.</p>
+		} else {
+			for _, pregunta := range preguntas {
+				<article>
+					<header><strong>{ pregunta.Enunciado }</strong></header>
+					<footer>
+						<a href={ templ.URL("/editar-pregunta?id=" + fmt.Sprint(pregunta.IDPregunta)) }>Modificar</a>
+						<form action={ templ.URL("/preguntas/" + fmt.Sprint(pregunta.IDPregunta) + "/eliminar") } method="POST" style="display:inline">
+							<button type="submit" class="secondary">Eliminar</button>
+						</form>
+					</footer>
+				</article>
+			}
+		}
+	}
+
+	<a href="/">Volver al inicio</a>
+}

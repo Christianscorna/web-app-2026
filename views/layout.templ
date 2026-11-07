@@ -1,0 +1,29 @@
+package views
+
+// Layout envuelve cualquier página de La Trivia Exacta recibiendo un título y un componente hijo
+
+templ Layout(title string, content templ.Component) {
+	<!DOCTYPE html>
+	<html lang="es">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title } - La Trivia Exacta</title>
+			
+            <!-- Pico.css CDN para estilos automáticos -->
+			<link rel="stylesheet" href="[suspicious link removed]"/>
+		</head>
+
+		<body>
+            <!-- Esta clase pertenece a pico.css y centra el contenido automáticamente -->
+			<main class="container">
+                <!-- Punto de inserción de nuestro contenido  -->
+				@content
+
+				
+			</main>
+
+
+		</body>
+	</html>  
+}

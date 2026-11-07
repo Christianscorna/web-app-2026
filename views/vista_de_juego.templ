@@ -1,0 +1,34 @@
+package views
+
+import "fmt"
+
+// VistaDeJuego ensambla el buscador, la ruleta y la trivia.
+templ VistaDeJuego(estado JuegoState) {
+	@Layout("Jugar", vistaDeJuegoContent(estado))
+}
+
+templ vistaDeJuegoContent(estado JuegoState) {
+	<header>
+		<h1>Jugar</h1>
+		<p>Elegí materias, girá la ruleta y respondé la pregunta.</p>
+	</header>
+	@BuscadorMateriaJuego(estado.Disponibles, estado.Materias, estado.Filtro)
+	@Ruleta(estado.Materias)
+	if estado.Error != "" {
+		<p class="error" role="alert">{ estado.Error }</p>
+	}
+	@PreguntaDesplegada(estado.Pregunta, estado.Opciones, estado.Materias)
+	@RespuestaPregunta(estado.Respuesta)
+	if estado.Respuesta != "" {
+		<nav aria-label="Continuar jugando">
+			<form action="/jugar" method="POST">
+				<input type="hidden" name="accion" value="girar"/>
+				for _, materia := range estado.Materias {
+					<input type="hidden" name="materias" value={ fmt.Sprint(materia.IDMateria) }/>
+				}
+				<button type="submit">Continuar jugando</button>
+			</form>
+			<a href="/">Volver al inicio</a>
+		</nav>
+	}
+}

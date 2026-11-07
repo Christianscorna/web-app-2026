@@ -1,0 +1,8 @@
+package views
+
+// RespuestaPregunta muestra exclusivamente la retroalimentación del servidor.
+templ RespuestaPregunta(mensaje string) {
+	if mensaje != "" {
+		<p class="respuesta-pregunta" role="status">{ mensaje }</p>
+	}
+}

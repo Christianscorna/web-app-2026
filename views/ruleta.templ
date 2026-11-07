@@ -1,0 +1,45 @@
+package views
+
+import (
+	"fmt"
+
+	db "ejemplo.com/tp-especial/db/sqlc"
+)
+
+// Ruleta muestra las materias elegidas y las acciones del turno.
+templ Ruleta(materias []db.Materium) {
+	<section class="ruleta-juego" aria-labelledby="ruleta-titulo">
+		<h2 id="ruleta-titulo">Ruleta</h2>
+		if len(materias) == 0 {
+			<p>Agregá al menos una materia para comenzar.</p>
+		} else {
+			<div class="rueda" role="list">
+				for _, materia := range materias {
+					<div class="sector" role="listitem">{ materia.Nombre }</div>
+				}
+			</div>
+			<form action="/jugar" method="POST">
+				<input type="hidden" name="accion" value="girar"/>
+				for _, materia := range materias {
+					<input type="hidden" name="materias" value={ fmt.Sprint(materia.IDMateria) }/>
+				}
+				<button type="submit">Girar</button>
+			</form>
+		}
+		<ul class="materias-elegidas">
+			for _, materia := range materias {
+				<li>
+					<span>{ materia.Nombre }</span>
+					<form action="/jugar" method="POST">
+						<input type="hidden" name="accion" value="quitar"/>
+						<input type="hidden" name="id_materia" value={ fmt.Sprint(materia.IDMateria) }/>
+						for _, elegida := range materias {
+							<input type="hidden" name="materias" value={ fmt.Sprint(elegida.IDMateria) }/>
+						}
+						<button type="submit" aria-label={ "Quitar " + materia.Nombre }>Quitar</button>
+					</form>
+				</li>
+			}
+		</ul>
+	</section>
+}

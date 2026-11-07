@@ -1,0 +1,56 @@
+package views
+
+// Contenido específico del formulario de crear pregunta
+templ crearPreguntaContent(materiaPrevia string) {
+	<h1>Añade una Pregunta a una materia</h1>
+	<p>Recuerda siempre que debes ser respetuoso con las consignas que añadas.</p>
+
+	<form action="/crear-pregunta" method="POST">
+		<label for="materia">
+			Materia asociada:
+			<input type="text" id="materia" name="materia" placeholder="p. ej.: Redes I" value={ materiaPrevia } required />
+		</label>
+
+		<label for="enunciado">
+			Enunciado:
+			<input type="text" id="enunciado" name="enunciado" placeholder="p. ej.: ¿Qué es TCP?" required />
+		</label>
+
+		<p>Agrega sus opciones, recuerda que una de ellas debe ser la verdadera:</p>
+		<ul>
+			<li>
+				<label>
+					<input type="radio" name="opcion_correcta" value="1" required /> 
+					Opción 1: <input type="text" name="opcion_1" required />
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="radio" name="opcion_correcta" value="2" /> 
+					Opción 2: <input type="text" name="opcion_2" required />
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="radio" name="opcion_correcta" value="3" /> 
+					Opción 3: <input type="text" name="opcion_3" required />
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="radio" name="opcion_correcta" value="4" /> 
+					Opción 4: <input type="text" name="opcion_4" required />
+				</label>
+			</li>
+		</ul>
+
+		<button type="submit">Guardar Pregunta</button>
+	</form>
+
+	<a href="/">Volver al inicio</a>
+}
+
+// Componente principal de la página que envuelve el contenido en el Layout
+templ CrearPreguntaPage(materiaPrevia string) {
+	@Layout("Crear Pregunta", crearPreguntaContent(materiaPrevia))
+}

@@ -1,0 +1,34 @@
+package views
+
+import (
+	"fmt"
+
+	db "ejemplo.com/tp-especial/db/sqlc"
+)
+
+// PreguntaDesplegada renderiza una pregunta sin exponer cuál opción es correcta.
+templ PreguntaDesplegada(pregunta db.Preguntum, opciones []db.Opcion, materias []db.Materium) {
+	if pregunta.IDPregunta != 0 {
+		<section class="pregunta" aria-labelledby="pregunta-titulo">
+			<h2 id="pregunta-titulo">Pregunta</h2>
+			<p>{ pregunta.Enunciado }</p>
+			<form action="/jugar" method="POST">
+				<input type="hidden" name="accion" value="responder"/>
+				<input type="hidden" name="id_pregunta" value={ fmt.Sprint(pregunta.IDPregunta) }/>
+				for _, materia := range materias {
+					<input type="hidden" name="materias" value={ fmt.Sprint(materia.IDMateria) }/>
+				}
+				<fieldset>
+					<legend>Seleccioná una opción</legend>
+					for _, opcion := range opciones {
+						<label>
+							<input type="radio" name="id_opcion" value={ fmt.Sprint(opcion.IDOpcion) } required/>
+							{ opcion.Texto }
+						</label>
+					}
+				</fieldset>
+				<button type="submit">Responder</button>
+			</form>
+		</section>
+	}
+}

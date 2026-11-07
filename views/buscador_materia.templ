@@ -1,0 +1,21 @@
+package views
+
+import db "ejemplo.com/tp-especial/db/sqlc"
+
+// Buscador de materias para filtrar las preguntas que se quieren administrar.
+templ BuscadorMateria(materias []db.Materium, materiaSeleccionada string) {
+	<form action="/preguntas" method="GET">
+		
+		<label for="materia">Busca materia</label>
+		
+		<input id="materia" name="materia" type="search" placeholder="p. ej.: Sistemas opera..." list="materias-disponibles" value={ materiaSeleccionada } autocomplete="off" required />
+		
+		<datalist id="materias-disponibles">
+			for _, materia := range materias {
+				<option value={ materia.Nombre }></option>
+			}
+		</datalist>
+		
+		<button type="submit">Buscar preguntas</button>
+	</form>
+}

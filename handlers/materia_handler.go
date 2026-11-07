@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
-	"fmt"
-	
+
 	"ejemplo.com/tp-especial/db/sqlc"
+	"ejemplo.com/tp-especial/views"
 )
 
 type MateriaHandler struct {
@@ -40,7 +41,7 @@ func extractIDFromPath(path string) (int, bool, error) {
 	if err != nil || id <= 0 {
 		return 0, true, fmt.Errorf("ID inválido")
 	}
-	
+
 	return id, true, nil
 }
 
@@ -179,4 +180,20 @@ func (h *MateriaHandler) handleMaterias(w http.ResponseWriter, r *http.Request) 
 
 func (h *MateriaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.handleMaterias(w, r)
+}
+
+// En handlers/materia_handler.go
+
+func (h *MateriaHandler) RenderIndex(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
+	// 1. Obtener datos con sqlc
+	// 2. Renderizar el componente Templ directamente al navegador
+	err := views.IndexPage().Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "Error al renderizar la vista", http.StatusInternalServerError)
+	}
 }

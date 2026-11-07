@@ -1,0 +1,21 @@
+package views
+
+// Mostrar mensaje de bienvenida al usuario
+templ indexContent() {
+	<h1>Bienvenido a La Trivia Exacta</h1>
+	<div class="presentacion">
+		<p>
+			En este sitio, podrás aprender jugando. Selecciona una materia o materias que quieras estudiar, gira la ruleta y el sistema te pondrá a prueba con preguntas arbitrarias de alguna de las materias que hayas seleccionado.
+		</p>
+
+		<nav aria-label="Acciones principales">
+			<a href="/preguntas" role="button">Editar preguntas</a>
+			<a href="/jugar" role="button" class="secondary">Jugar</a>
+		</nav>
+	</div>
+}
+
+// Componente de página completa que integra el Layout
+templ IndexPage() {
+	@Layout("Inicio", indexContent())
+}

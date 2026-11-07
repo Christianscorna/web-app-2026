@@ -2,3 +2,5 @@ css/
 imagenes/
 sqlc/
 *.txt
+static/
+*_templ.go
