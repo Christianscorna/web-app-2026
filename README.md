@@ -7,7 +7,15 @@ Integrantes:
 - **Lucio Manuel Storni**
 
 ## Sobre el proyecto:
-La idea es tener una aplicación web sencilla que permita al usuario jugar aprendiendo, eligiendo las materias que quiere estudiar y el juego le propondrá una trivia con preguntas de las asignaturas elegidas. Además es posible agregar preguntas desde interfaz si el usuario lo desea. 
+La idea del proyecto es tener una aplicación web sencilla para probar todas las herramientas que fuimos aprendiendo durante el curso de Programación Web: Crear un contendor, crear y ejecutar archivos go, conectar la interfaz con una base de datos sencilla, automatizar la generación de código go mediante comandos, etc.
+
+Una vez dentro de la página principal, el sitio le da la bienvenida y tendrá dos opciones principales: La de jugar y la de ir a las preguntas. La idea es que se pueda hacer un CRUD completo sobre una entidad y además que haya algo "más para hacer" con estas entidades y ver como se relacionan/interactuan entre ellas. 
+
+Si queres podes agregar una pregunta (siempre en cuando sea respetuosa), la pregunta se asocia automaticamente a una materia, que previamente fue seleccionada cuando buscaba las preguntas de su materia. Podes ver las preguntas, modificarlas por completo e incluso eliminarlas. Acá lo interesante es que la base es consistente con la interfaz y siempre que se elimine una pregunta, se eliminan tambien las opciones a ella relacionadas y no suceden cosas raras como por ejemplo que se borre la materia asociada. 
+
+Luego puede jugar, filtra materias por nombre, elige hasta un máximo de 5 materias (o menos), gira la ruleta y, de la materia que haya salido seleccionada, sale una pregunta aleatoria. 
+
+La ruleta es una prueba de concepto, simplemente es un contenedorcito que almacena las materias seleccionadas (y le permite quitar materias de ella en cualquier momento del juego). 
 
 Entidades:
 #### Materia 
@@ -42,37 +50,6 @@ Este proyecto utiliza una combinación de arquitectura cliente-servidor y organi
 
 Este modo de organización permite organizar el código, facilitar su mantenimiento, entendimiento y distinción entre las diferentes partes de la lógica ya sea que este relacionada con la persistencia, procesamiento de solicitudes HTTP o atender a la interfaz de usuario. 
 
-### Estructura del Proyecto
-
-```
-tp-especial/
-|-- db/
-|   |-- queries/
-|   |   └── queries.sql
-|   |-- schema/
-|   |   └── schema.sql
-|   └── tests/
-|   |   |-- materia_test.go
-|   |   |-- preguntas_test.go
-|   |   └── opciones_test.go
-|   └── coneccionbd.go
-|-- handlers/
-|   |-- materia_handler.go
-|   |-- opcion_handler.go
-|   └── pregunta_handler.go
-|-- docker-compose.yml
-|-- sqlc.yaml
-|-- Makefile
-|-- go.mod
-|-- go.sum
-|-- main.go
-|-- request.hurl
-|-- README.md
-└── static/
-    |-- crear_pregunta.html
-    └── index.html
-```
-
 ### Levantar el proyecto
 
 Para ejecutar este proyecto es necesario tener instalado sqlc. Puedes descargarlo desde la terminal con los siguientes comandos. 
@@ -80,4 +57,10 @@ Para ejecutar este proyecto es necesario tener instalado sqlc. Puedes descargarl
 > go get gorm.io/gorm <br>
 > go get gorm.io/driver/postgres
 
-Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make run` Si todo ha salido bien, deberías ver la salida de hurl exitosa de todos los comandos. 
+Tambien es necesario tener descargado templ. Puedes descargarlo con el siguiente comando:
+
+> go get github.com/a-h/templ
+
+Puedes acceder a ambas dependencias desde `ls ~/go/bin/` y allí deberían figurar tanto sqlc como templ. 
+
+Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp5-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos. 

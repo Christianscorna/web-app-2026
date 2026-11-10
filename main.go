@@ -31,7 +31,6 @@ func main() {
 	mux.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css"))))
 	mux.Handle("/imagenes/", http.StripPrefix("/imagenes/", http.FileServer(http.Dir("./imagenes"))))
 
-	// Rutas SSR conectadas a los métodos de tus handlers
 	mux.HandleFunc("/", materiaHandler.RenderIndex)
 	mux.HandleFunc("/jugar", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {

@@ -18,6 +18,7 @@ templ Ruleta(materias []db.Materium) {
 					<div class="sector" role="listitem">{ materia.Nombre }</div>
 				}
 			</div>
+		
 			<form action="/jugar" method="POST">
 				<input type="hidden" name="accion" value="girar"/>
 				for _, materia := range materias {
@@ -30,6 +31,7 @@ templ Ruleta(materias []db.Materium) {
 			for _, materia := range materias {
 				<li>
 					<span>{ materia.Nombre }</span>
+		
 					<form action="/jugar" method="POST">
 						<input type="hidden" name="accion" value="quitar"/>
 						<input type="hidden" name="id_materia" value={ fmt.Sprint(materia.IDMateria) }/>

@@ -10,6 +10,7 @@ import (
 templ BuscadorMateriaJuego(materias []db.Materium, seleccionadas []db.Materium, filtro string) {
 	<section aria-labelledby="buscador-materias">
 		<h2 id="buscador-materias">Elegí tus materias</h2>
+
 		<form action="/jugar" method="GET">
 			for _, elegida := range seleccionadas {
 				<input type="hidden" name="materias" value={ fmt.Sprint(elegida.IDMateria) }/>
@@ -20,6 +21,7 @@ templ BuscadorMateriaJuego(materias []db.Materium, seleccionadas []db.Materium, 
 				autocomplete="off"/>
 			<button type="submit">Buscar</button>
 		</form>
+
 		if len(materias) == 0 {
 			<p>No hay materias que coincidan con la búsqueda.</p>
 		} else {
@@ -27,6 +29,7 @@ templ BuscadorMateriaJuego(materias []db.Materium, seleccionadas []db.Materium, 
 				for _, materia := range materias {
 					<li>
 						<span>{ materia.Nombre }</span>
+
 						<form action="/jugar" method="POST">
 							<input type="hidden" name="accion" value="agregar"/>
 							<input type="hidden" name="q" value={ filtro }/>

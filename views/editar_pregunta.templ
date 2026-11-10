@@ -12,6 +12,7 @@ templ EditarPreguntaPage(pregunta db.Preguntum, opciones []db.Opcion, materias [
 
 templ editarPreguntaContent(pregunta db.Preguntum, opciones []db.Opcion, materias []db.Materium) {
 	<h1>Modificar pregunta</h1>
+	
 	<form action={ templ.URL("/editar-pregunta?id=" + fmt.Sprint(pregunta.IDPregunta)) } method="POST">
 		<label for="materia">Materia asociada</label>
 		<select id="materia" name="id_materia" required>

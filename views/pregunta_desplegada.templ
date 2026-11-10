@@ -12,12 +12,14 @@ templ PreguntaDesplegada(pregunta db.Preguntum, opciones []db.Opcion, materias [
 		<section class="pregunta" aria-labelledby="pregunta-titulo">
 			<h2 id="pregunta-titulo">Pregunta</h2>
 			<p>{ pregunta.Enunciado }</p>
+			
 			<form action="/jugar" method="POST">
 				<input type="hidden" name="accion" value="responder"/>
 				<input type="hidden" name="id_pregunta" value={ fmt.Sprint(pregunta.IDPregunta) }/>
 				for _, materia := range materias {
 					<input type="hidden" name="materias" value={ fmt.Sprint(materia.IDMateria) }/>
 				}
+			
 				<fieldset>
 					<legend>Seleccioná una opción</legend>
 					for _, opcion := range opciones {

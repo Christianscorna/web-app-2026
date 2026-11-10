@@ -12,7 +12,9 @@ help:
 	@echo "  make ps      - Lista el estado de los contenedores."
 	@echo "  make shell   - Entra al shell psql dentro del contenedor para hacer consultas."
 	@echo "  make clean   - Detiene y elimina con vervosidad."
-	@echo "  make test    - Corre el programa."
+	@echo "  make test    - Corre la suite de test del programa."
+	@echo "	 make run	  - Ejecuta el servidor en segundo plano y corre el archivo de pruebas hURL."
+	@echo "  make tp5-run - Corre el servidor, genera código asociado a los templates."
 
 up:
 	docker compose up -d
@@ -75,3 +77,16 @@ run: restart wait-db
 		sleep 1; \
 	done; \
 	hurl --test request.hurl
+
+	@echo "\nBorrando contenedores y volúmenes viejos..."
+	docker compose down -v
+
+tp5-run: restart wait-db 
+	@echo "\generando código sqlc"
+	~/go/bin/sqlc generate
+
+	@echo "\generando código go de los templates"
+	~/go/bin/templ generate 
+
+	@echo "\nLevantando el servidor..."
+	go run . \ 
