@@ -64,3 +64,4 @@ Tambien es necesario tener descargado templ. Puedes descargarlo con el siguiente
 Puedes acceder a ambas dependencias desde `ls ~/go/bin/` y allí deberían figurar tanto sqlc como templ. 
 
 Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp5-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos. 
+Gracias por leer
