@@ -1,94 +1,366 @@
+/* =========================================
+   1. VARIABLES Y RESET BASE
+   ========================================= */
+:root {
+    --azul-primario: #3F92D0;
+    --azul-hover: #0d47a1;
+    --rojo-peligro: #c62828;
+    --rojo-hover: #8e0000;
+    --texto-oscuro: #1e293b;
+    --borde-suave: #cbd5e1;
+    --fondo-tarjeta: rgba(255, 255, 255, 0.88);
+    --radio: 10px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     width: 100%;
-    height: 100%;
+    min-height: 100dvh;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--texto-oscuro);
 
-    background-image: url("fondo.jpg");
+    /* Biblioteca de fondo fija */
+    background-image: url("/static/imagenes/fondo.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* =========================================
+   2. ILUSTRACIONES FIJAS PROPORCIONALES
+   ========================================= */
 body::before {
     content: "";
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 384px;
-    height: 256px;
-    background-image: url("gallito.png");
+    bottom: 12px;
+    left: 12px;
+    width: clamp(140px, 24vw, 350px);
+    height: clamp(95px, 16vw, 235px);
+    background-image: url("/static/imagenes/gallito.png");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: bottom left;
+    pointer-events: none;
+    z-index: 1;
 }
 
-body::after {    /*Elemento adicional*/
-    content: ""; /*vacio (sin texto)*/
-    position: fixed;  /*fijo en la pantalla aunque scrolles*/
-    bottom: 10px;   /*10 p�xeles entre el elemento y el borde inferior de la ventana*/
-    right: 10px;   /*10 p�xeles entre el elemento y el borde derecho de la ventana*/
-    width: 250px; /*ancho del espacio reservado de la imagen*/
-    height: 90px; /*alto del espacio reservado de la imagen*/
-    background-image: url("exactas.png");
-    background-size: contain;  /*la imagen entra completamente el el espacio disponible sin deformarse (puede sobrer ancho o alto)*/
-    background-repeat: no-repeat; /*no repetir la imagen en el espacio disponible (por ejemplo si entran dos o mas)*/
-    background-position: center;
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    width: clamp(130px, 16vw, 240px);
+    height: clamp(48px, 6vw, 88px);
+    background-image: url("/static/imagenes/exactas.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    pointer-events: none;
+    z-index: 1;
 }
 
-
-h1 {
-text-align: center;
-font-size: 50px;
-text-shadow: 2px 2px 4px white;
+/* =========================================
+   3. CONTENEDOR PRINCIPAL (PORTADA VS VISTAS)
+   ========================================= */
+main.container {
+    position: relative;
+    z-index: 2;
+    width: min(92%, 820px);
+    /* Margen inferior amplio para que al scrollear no lo tapen las imágenes fijas */
+    margin: 2rem auto 7rem;
 }
 
-p {
-text-align: center;
-font-size: 25px;
-    color: white;
-    text-shadow: 2px 2px 4px black;
+/* --- ESTILOS EXCLUSIVOS DE LA PORTADA (sin form, section ni article) --- */
+main.container:not(:has(form, section, article)) {
+    width: min(92%, 1000px);
+    margin-top: 3vh;
+    text-align: center;
+}
+
+main.container:not(:has(form, section, article)) h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    color: #000;
+    margin: 0.5rem 0 1rem;
+    text-shadow: 2px 2px 4px #fff;
+}
+
+main.container:not(:has(form, section, article)) p {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.1rem, 2vw, 1.55rem);
+    color: #fff;
+    margin: 0 auto;
+    text-shadow: 2px 2px 4px #000;
 }
 
 .botones {
-    /*donde colocar los botones*/
-    position: absolute;
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    display: flex; /*uno al lado del otro*/
-    gap: 30px;   /*separacion de botones*/
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: clamp(2.5rem, 11vh, 6rem);
 }
 
+/* --- TARJETA TRANSLÚCIDA PARA VISTAS CON FORMULARIOS O LISTADOS --- */
+main.container:has(form, section, article) {
+    background: var(--fondo-tarjeta);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+main.container:has(form, section, article) h1 {
+    margin-top: 0;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: var(--azul-hover);
+    text-align: center;
+}
+
+main.container:has(form, section, article) h2 {
+    font-size: 1.35rem;
+    color: var(--azul-hover);
+    margin-top: 0;
+}
+
+main.container:has(form, section, article) p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--texto-oscuro);
+    text-align: left;
+    text-shadow: none;
+}
+
+/* =========================================
+   4. BOTONES Y ENLACES DE ACCIÓN
+   ========================================= */
+button,
+.boton,
+a[role="button"] {
+    display: inline-block;
+    padding: 0.65rem 1.35rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    background-color: var(--azul-primario);
+    border: none;
+    border-radius: var(--radio);
+    cursor: pointer;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Tamaño destacado para los botones de la portada */
 .botones button,
 .botones .boton {
-    padding: 15px 35px; /*distancia entre texto y bordes*/
-    font-size: 20px;   /*tama�o de letra*/
-    font-weight: bold;  /*texto en negrita*/
-
-    color: white;
-    background-color: #3F92D0;
-
-    border: none;   /*sin borde*/
-    border-radius: 10px;   /*redondea esquinas del boton*/
-
-    cursor: pointer;   /*transforma cursor en manito al pasar por el boton*/
-
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);   /*sombras a derecha, abajo, difuminado y opacidad*/
+    padding: 15px 35px;
+    font-size: 20px;
+    font-family: Georgia, "Times New Roman", serif;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-/*modificacion de botones al pasar el cursor*/
-.botones button:hover,
-.botones .boton:hover {
-    background-color: #0d47a1;
-    transform: scale(1.05);
+button:hover:not(:disabled),
+.boton:hover,
+a[role="button"]:hover {
+    background-color: var(--azul-hover);
+    transform: translateY(-1px);
 }
 
-.botones .boton {
-    display: inline-block;
-    text-decoration: none;
+button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Botón secundario / Eliminar */
+button.secondary {
+    background-color: var(--rojo-peligro);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+button.secondary:hover {
+    background-color: var(--rojo-hover);
+}
+
+/* =========================================
+   5. FORMULARIOS, INPUTS Y OPCIONES
+   ========================================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="search"],
+select {
+    display: block;
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.6rem 0.85rem;
+    font-size: 1rem;
     font-family: inherit;
+    color: var(--texto-oscuro);
+    background-color: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid var(--azul-primario);
+    border-color: transparent;
+}
+
+/* Fieldset y listas de opciones (Crear, Editar y Jugar) */
+fieldset {
+    border: 1px solid var(--borde-suave);
+    border-radius: var(--radio);
+    padding: 1rem;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+legend {
+    font-weight: 700;
+    padding: 0 0.5rem;
+    color: var(--azul-hover);
+}
+
+main.container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+/* Filas de radio buttons (funcionan tanto con texto solo como con input inline) */
+fieldset label,
+main.container ul li label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    margin-bottom: 0.5rem;
+    background: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+fieldset label input[type="text"],
+main.container ul li label input[type="text"] {
+    flex: 1;
+    margin-top: 0;
+}
+
+input[type="radio"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--azul-primario);
+    cursor: pointer;
+}
+
+/* =========================================
+   6. COMPONENTES ESPECÍFICOS DE TUS VISTAS
+   ========================================= */
+/* Catálogo de materias en /jugar */
+.catalogo-materias li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+}
+
+.catalogo-materias li form {
+    margin: 0;
+}
+
+/* Cabecera y tarjetas de preguntas en /preguntas */
+main.container > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--borde-suave);
+}
+
+main.container > header h2 {
+    margin: 0;
+}
+
+article {
+    background: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: var(--radio);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+article footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+article footer form {
+    margin: 0;
+}
+
+/* Mensaje de retroalimentación al responder */
+.respuesta-pregunta {
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    background-color: #e0f2fe;
+    border-left: 4px solid var(--azul-primario);
+    font-weight: 600;
+}
+
+/* Enlaces de navegación ("Volver al inicio", "Modificar") */
+main.container a:not([role="button"]):not(.boton) {
+    color: var(--azul-hover);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+main.container a:not([role="button"]):not(.boton):hover {
+    text-decoration: underline;
 }

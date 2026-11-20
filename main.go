@@ -30,6 +30,10 @@ func main() {
 	// Archivos estáticos
 	mux.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css"))))
 	mux.Handle("/imagenes/", http.StripPrefix("/imagenes/", http.FileServer(http.Dir("./imagenes"))))
+	mux.Handle(
+		"/static/", 
+		http.StripPrefix("/static/", http.FileServer(http.Dir("static"))),
+	);
 
 	mux.HandleFunc("/", materiaHandler.RenderIndex)
 	mux.HandleFunc("/jugar", func(w http.ResponseWriter, r *http.Request) {
