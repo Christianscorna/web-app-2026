@@ -1,0 +1,55 @@
+
+
+h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-align: center;
+}
+
+body {
+  margin: 0 10%;
+  min-height: 100vh;
+
+  background-image: url("/imagenes/biblio.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+
+  font-family: Vegur, 'PT Sans', Verdana, sans-serif;
+}
+
+p {
+  text-align: justify;
+  font-size: large;
+}
+
+.presentacion {
+  back-ground-color: #FFF;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* 
+1. Ruleta Interactiva con Checkbox (CSS Puro)
+Este método utiliza un input oculto y un label para alternar la animación. Al marcar la casilla, la ruleta gira; al desmarcarla, se detiene.
+
+Estructura HTML: Se requiere un input type="checkbox" y una lista de elementos (li) que representan las opciones.
+Lógica CSS:
+Se define el tamaño de la rueda y el número de opciones mediante variables CSS (--size, --number-of-items).
+Se calculan los ángulos de rotación para cada ítem usando calc(360deg / var(--number-of-items) * n).
+La animación se activa con animation-play-state: running cuando el checkbox está marcado (:checked).
+
+Ejemplo simplificado de lógica RULETA  */
+.compsoul-roulette-checkbox:checked + .compsoul-roulette-label + .compsoul-roulette .roulette-list {
+  animation-play-state: running;
+}
+
+@keyframes roulette {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}   

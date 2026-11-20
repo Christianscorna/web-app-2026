@@ -1,5 +1,3 @@
-css/
-imagenes/
 sqlc/
 *.txt
 *_templ.go
