@@ -1,55 +1,94 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    background-image: url("fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 384px;
+    height: 256px;
+    background-image: url("gallito.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+body::after {    /*Elemento adicional*/
+    content: ""; /*vacio (sin texto)*/
+    position: fixed;  /*fijo en la pantalla aunque scrolles*/
+    bottom: 10px;   /*10 p�xeles entre el elemento y el borde inferior de la ventana*/
+    right: 10px;   /*10 p�xeles entre el elemento y el borde derecho de la ventana*/
+    width: 250px; /*ancho del espacio reservado de la imagen*/
+    height: 90px; /*alto del espacio reservado de la imagen*/
+    background-image: url("exactas.png");
+    background-size: contain;  /*la imagen entra completamente el el espacio disponible sin deformarse (puede sobrer ancho o alto)*/
+    background-repeat: no-repeat; /*no repetir la imagen en el espacio disponible (por ejemplo si entran dos o mas)*/
+    background-position: center;
+}
 
 
 h1 {
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    text-align: center;
-}
-
-body {
-  margin: 0 10%;
-  min-height: 100vh;
-
-  background-image: url("/imagenes/biblio.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-
-  font-family: Vegur, 'PT Sans', Verdana, sans-serif;
+text-align: center;
+font-size: 50px;
+text-shadow: 2px 2px 4px white;
 }
 
 p {
-  text-align: justify;
-  font-size: large;
+text-align: center;
+font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px 4px black;
 }
 
-.presentacion {
-  back-ground-color: #FFF;
-  width: 100%;
-  height: 100%;
+.botones {
+    /*donde colocar los botones*/
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex; /*uno al lado del otro*/
+    gap: 30px;   /*separacion de botones*/
 }
 
+.botones button,
+.botones .boton {
+    padding: 15px 35px; /*distancia entre texto y bordes*/
+    font-size: 20px;   /*tama�o de letra*/
+    font-weight: bold;  /*texto en negrita*/
 
+    color: white;
+    background-color: #3F92D0;
 
-/* 
-1. Ruleta Interactiva con Checkbox (CSS Puro)
-Este método utiliza un input oculto y un label para alternar la animación. Al marcar la casilla, la ruleta gira; al desmarcarla, se detiene.
+    border: none;   /*sin borde*/
+    border-radius: 10px;   /*redondea esquinas del boton*/
 
-Estructura HTML: Se requiere un input type="checkbox" y una lista de elementos (li) que representan las opciones.
-Lógica CSS:
-Se define el tamaño de la rueda y el número de opciones mediante variables CSS (--size, --number-of-items).
-Se calculan los ángulos de rotación para cada ítem usando calc(360deg / var(--number-of-items) * n).
-La animación se activa con animation-play-state: running cuando el checkbox está marcado (:checked).
+    cursor: pointer;   /*transforma cursor en manito al pasar por el boton*/
 
-Ejemplo simplificado de lógica RULETA  */
-.compsoul-roulette-checkbox:checked + .compsoul-roulette-label + .compsoul-roulette .roulette-list {
-  animation-play-state: running;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);   /*sombras a derecha, abajo, difuminado y opacidad*/
 }
 
-@keyframes roulette {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
-}   
+/*modificacion de botones al pasar el cursor*/
+.botones button:hover,
+.botones .boton:hover {
+    background-color: #0d47a1;
+    transform: scale(1.05);
+}
+
+.botones .boton {
+    display: inline-block;
+    text-decoration: none;
+    font-family: inherit;
+}
