@@ -17,30 +17,37 @@ templ gestionPreguntasContent(materias []db.Materium, materia db.Materium, pregu
 
 	@BuscadorMateria(materias, materia.Nombre)
 
-	if materia.IDMateria != 0 {
-		<header>
-			<h2>{ materia.Nombre }</h2>
-			<a href={ templ.URL("/crear-pregunta?materia=" + fmt.Sprint(materia.Nombre)) } role="button">
-				Crear nueva pregunta
-			</a>
-		</header>
-
-		if len(preguntas) == 0 {
-			<p>Todavía no hay preguntas para esta materia.</p>
-		} else {
-			for _, pregunta := range preguntas {
-				<article>
-					<header><strong>{ pregunta.Enunciado }</strong></header>
-					<footer>
-						<a href={ templ.URL("/editar-pregunta?id=" + fmt.Sprint(pregunta.IDPregunta)) }>Modificar</a>
-						<form action={ templ.URL("/preguntas/" + fmt.Sprint(pregunta.IDPregunta) + "/eliminar") } method="POST" style="display:inline">
-							<button type="submit" class="secondary">Eliminar</button>
-						</form>
-					</footer>
-				</article>
-			}
-		}
-	}
+	@PreguntasList(materia, preguntas)
 
 	<a href="/">Volver al inicio</a>
+}
+
+templ PreguntasList(materia db.Materium, preguntas []db.Preguntum) {
+	<div id="preguntas-lista">
+		if materia.IDMateria != 0 {
+			<header>
+				<h2>{ materia.Nombre }</h2>
+				<a href={ templ.URL("/crear-pregunta?materia=" + fmt.Sprint(materia.Nombre)) } role="button">
+					Crear nueva pregunta
+				</a>
+			</header>
+
+			if len(preguntas) == 0 {
+				<p>Todavía no hay preguntas para esta materia.</p>
+			} else {
+				for _, pregunta := range preguntas {
+					<article id={ "pregunta-" + fmt.Sprint(pregunta.IDPregunta) }>
+						<header><strong>{ pregunta.Enunciado }</strong></header>
+						<footer>
+							<a href={ templ.URL("/editar-pregunta?id=" + fmt.Sprint(pregunta.IDPregunta)) }>Modificar</a>
+							<!-- <form action="/preguntas/{id}/eliminar" method="POST" style="display:inline"> -->
+							<form hx-delete={ templ.URL("/preguntas/" + fmt.Sprint(pregunta.IDPregunta)) } hx-target={ "#pregunta-" + fmt.Sprint(pregunta.IDPregunta) } hx-swap="outerHTML" style="display:inline">
+								<button type="submit" class="secondary">Eliminar</button>
+							</form>
+						</footer>
+					</article>
+				}
+			}
+		}
+	</div>
 }

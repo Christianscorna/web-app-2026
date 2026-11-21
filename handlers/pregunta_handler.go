@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -20,6 +19,9 @@ type PreguntaHandler struct {
 func NewPreguntaHandler(queries *db.Queries) *PreguntaHandler {
 	return &PreguntaHandler{queries: queries}
 }
+
+/*
+API REST de preguntas. Actualmente estas rutas no están registradas en NewRouter.
 
 func (h *PreguntaHandler) getPreguntas(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -109,6 +111,7 @@ func (h *PreguntaHandler) deletePregunta(w http.ResponseWriter, r *http.Request,
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+*/
 
 // Este helper limpia la ruta /preguntas y verifica si existe un ID numérico a continuación.
 func extractPreguntaIDFromPath(path string) (int, bool, error) {
@@ -127,6 +130,7 @@ func extractPreguntaIDFromPath(path string) (int, bool, error) {
 	return id, true, nil
 }
 
+/*
 func (h *PreguntaHandler) handlePreguntas(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
@@ -181,6 +185,7 @@ func (h *PreguntaHandler) handlePreguntas(w http.ResponseWriter, r *http.Request
 func (h *PreguntaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.handlePreguntas(w, r)
 }
+*/
 
 // En handlers/pregunta_handler.go
 
@@ -306,11 +311,58 @@ func (h *PreguntaHandler) DeleteFromForm(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	var materia db.Materium
+	if strings.EqualFold(r.Header.Get("HX-Request"), "true") {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Error al procesar el formulario", http.StatusBadRequest)
+			return
+		}
+		idMateria, err := strconv.Atoi(r.FormValue("materia"))
+		if err != nil || idMateria <= 0 {
+			http.Error(w, "ID de materia inválido", http.StatusBadRequest)
+			return
+		}
+		materia, err = h.queries.GetMateria(r.Context(), int32(idMateria))
+		if err != nil {
+			http.Error(w, "Error al obtener la materia", http.StatusInternalServerError)
+			return
+		}
+	}
+
 	if err := h.queries.DeletePregunta(r.Context(), int32(id)); err != nil {
 		http.Error(w, "Error al eliminar la pregunta", http.StatusInternalServerError)
 		return
 	}
+
+	if strings.EqualFold(r.Header.Get("HX-Request"), "true") {
+		preguntas, err := h.queries.ListPreguntasByMateria(r.Context(), materia.IDMateria)
+		if err != nil {
+			http.Error(w, "Error al obtener las preguntas", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if err := views.PreguntasList(materia, preguntas).Render(r.Context(), w); err != nil {
+			http.Error(w, "Error al renderizar las preguntas", http.StatusInternalServerError)
+		}
+		return
+	}
+
 	http.Redirect(w, r, "/preguntas", http.StatusSeeOther)
+}
+
+func (h *PreguntaHandler) DeletePreguntaFromURL(w http.ResponseWriter, r *http.Request) {
+	id, hasID, err := extractPreguntaIDFromPath(r.URL.Path)
+	if err != nil || !hasID || id <= 0 {
+		http.Error(w, "ID de pregunta inválido", http.StatusBadRequest)
+		return
+	}
+
+	if err := h.queries.DeletePregunta(r.Context(), int32(id)); err != nil {
+		http.Error(w, "Error al eliminar la pregunta", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 func (h *PreguntaHandler) RenderEditForm(w http.ResponseWriter, r *http.Request) {

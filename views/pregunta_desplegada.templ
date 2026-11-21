@@ -13,7 +13,8 @@ templ PreguntaDesplegada(pregunta db.Preguntum, opciones []db.Opcion, materias [
 			<h2 id="pregunta-titulo">Pregunta</h2>
 			<p>{ pregunta.Enunciado }</p>
 			
-			<form action="/jugar" method="POST">
+			<!-- <form action="/jugar" method="POST"> -->
+			<form hx-post="/jugar" hx-target="#juego" hx-select="#juego" hx-swap="outerHTML">
 				<input type="hidden" name="accion" value="responder"/>
 				<input type="hidden" name="id_pregunta" value={ fmt.Sprint(pregunta.IDPregunta) }/>
 				for _, materia := range materias {

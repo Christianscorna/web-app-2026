@@ -45,6 +45,20 @@ Esta parte del trabajo ha sido omitida por la cátedra para la entrega por cuest
 #### Tp 5 
 En esta parte del proyecto hemos trabajado con Renderizado del Lado del Servidor con Templ, una tecnología que tal como lo hicimos con sqlc generate en su momento, nos permite generar código go automáticamente a raiz de los templates de código html. 
 
+#### Tp 6
+En esta entrega incorporamos HTMX para que algunas interacciones de la aplicación sean más ágiles sin recargar el documento completo. En la sección **Jugar**, al buscar o agregar materias, quitarlas, girar la ruleta, responder y continuar, el servidor procesa la acción y devuelve el HTML actualizado de la zona correspondiente. HTMX intercambia ese fragmento en la página, mientras Templ sigue ocupándose de renderizar la interfaz desde el servidor.
+
+
+Este enfoque tambien ha sido tenido en cuenta para algunas partes de la administración de preguntas como es el caso de la bpusqueda que actualiza el listado de las materia seleccionada y que cuando se elimina una pregunta, con HTMX enviamos una solicitud DELETE con el id, entonces el servidor elimina la pregunta y responde con estado OK 200. 
+
+### Conclusión
+
+El objetivo de esta etapa fue acercar la experiencia de una aplicación renderizada en el servidor a la de una interfaz más reactiva, sin reemplazar Templ ni trasladar la lógica de la aplicación al navegador. HTMX coordina las solicitudes y los intercambios parciales de HTML; el servidor conserva la responsabilidad de procesar las acciones y generar las vistas. Así reutilizamos la lógica y los componentes existentes, y evitamos recargar toda la página en los flujos que adaptamos.
+
+Como parte de la organización del proyecto, trasladamos la configuración de rutas y métodos HTTP a `handlers/router.go`. De esta manera, el main juega de orquestador y como punto de entrada: conecta la base de datos, construye las dependencias y pone en marcha el servidor. Esta separación hace más claro dónde se inicia la aplicación y dónde se reciben y distribuyen las solicitudes.
+
+En los handlers también dejamos comentados algunos bloques de la API REST desarrollados en y para etapas anteriores. Actualmente esas rutas no están registradas en el router de la aplicación web, pero se conservaron para mostrar la evolución del proyecto porque consideramos importante en esta etapa de aprendizaje que se vea por donde hemos ido pasando y las distintas formas de interacción que se exploraron durante la cursada. Los handlers que sí utiliza la aplicación (como el renderizado de páginas, el flujo de juego y la administración de preguntas) permanecen activos.
+
 ### Sobre la arquitectura del proyecto
 Este proyecto utiliza una combinación de arquitectura cliente-servidor y organización por capas. El navegador funciona como cliente y se comunica mediante HTTP con el servidor desarrollado en go. La app se organiza en distintas responsabilidades: la capa de acceso a datos, capa de handlers y la capa de presentación. 
 
@@ -63,4 +77,4 @@ Tambien es necesario tener descargado templ. Puedes descargarlo con el siguiente
 
 Puedes acceder a ambas dependencias desde `ls ~/go/bin/` y allí deberían figurar tanto sqlc como templ. 
 
-Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp5-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos. 
+Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp6-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos.

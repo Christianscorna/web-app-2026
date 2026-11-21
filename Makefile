@@ -81,7 +81,7 @@ run: restart wait-db
 	@echo "\nBorrando contenedores y volúmenes viejos..."
 	docker compose down -v
 
-tp5-run: restart wait-db 
+tp6-run: restart wait-db 
 	@echo "\generando código sqlc"
 	~/go/bin/sqlc generate
 

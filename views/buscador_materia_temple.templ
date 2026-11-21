@@ -11,7 +11,8 @@ templ BuscadorMateriaJuego(materias []db.Materium, seleccionadas []db.Materium, 
 	<section aria-labelledby="buscador-materias">
 		<h2 id="buscador-materias">Elegí tus materias</h2>
 
-		<form action="/jugar" method="GET">
+		<!-- <form action="/jugar" method="GET"> -->
+		<form hx-get="/jugar" hx-target="#juego" hx-select="#juego" hx-swap="outerHTML">
 			for _, elegida := range seleccionadas {
 				<input type="hidden" name="materias" value={ fmt.Sprint(elegida.IDMateria) }/>
 			}
@@ -30,7 +31,8 @@ templ BuscadorMateriaJuego(materias []db.Materium, seleccionadas []db.Materium, 
 					<li>
 						<span>{ materia.Nombre }</span>
 
-						<form action="/jugar" method="POST">
+						<!-- <form action="/jugar" method="POST"> -->
+						<form hx-post="/jugar" hx-target="#juego" hx-select="#juego" hx-swap="outerHTML">
 							<input type="hidden" name="accion" value="agregar"/>
 							<input type="hidden" name="q" value={ filtro }/>
 							<input type="hidden" name="id_materia" value={ fmt.Sprint(materia.IDMateria) }/>

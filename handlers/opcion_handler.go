@@ -1,5 +1,8 @@
 package handlers
 
+/*
+API REST de opciones. Actualmente estas rutas no están registradas en NewRouter.
+
 import (
 	"database/sql"
 	"encoding/json"
@@ -165,3 +168,4 @@ func (h *OpcionHandler) handleOpciones(w http.ResponseWriter, r *http.Request) {
 func (h *OpcionHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.handleOpciones(w, r)
 }
+*/

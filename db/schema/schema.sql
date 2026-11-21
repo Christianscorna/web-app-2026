@@ -31,4 +31,5 @@ CREATE TABLE opcion (
 INSERT INTO materia (nombre, descripcion)
 VALUES 
     ('Sistemas Operativos', 'Materia de 3er año de IS, dictada por Alejandro Zunino y Matias Hirch'),
-    ('Programación Web', 'Materia de 3er año de IS, segundo cuatrimestre, dictada por Alejandro Zunino y Alfredo Teyseyre');
+    ('Programación Web', 'Materia de 3er año de IS, segundo cuatrimestre, dictada por Alejandro Zunino y Alfredo Teyseyre'),
+    ('Arquitectura de Computadoras I', 'Materia de segundo año, primer cuatrimestre de sistemas, dictada por el Vasco');

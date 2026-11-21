@@ -1,13 +1,8 @@
 package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"net/http"
-	"strconv"
-	"strings"
 
 	"ejemplo.com/tp-especial/db/sqlc"
 	"ejemplo.com/tp-especial/views"
@@ -26,6 +21,9 @@ func throwingError(w http.ResponseWriter, statusCode int, message string) {
 	w.WriteHeader(statusCode)
 	json.NewEncoder(w).Encode(map[string]string{"error": message})
 }
+
+/*
+API REST de materias. Actualmente estas rutas no están registradas en NewRouter.
 
 // Auxiliar para extraer el ID del path
 func extractIDFromPath(path string) (int, bool, error) {
@@ -181,6 +179,7 @@ func (h *MateriaHandler) handleMaterias(w http.ResponseWriter, r *http.Request) 
 func (h *MateriaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.handleMaterias(w, r)
 }
+*/
 
 // En handlers/materia_handler.go
 
