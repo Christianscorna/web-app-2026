@@ -12,6 +12,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/schema/schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/schema/seed.sql:/docker-entrypoint-initdb.d/seed.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d web_db"]
       interval: 10s

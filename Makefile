@@ -1,6 +1,6 @@
 # Makefile para gestionar la Base de Datos PostgreSQL con Docker Compose
 
-.PHONY: up down restart logs ps shell help test hurl-test run
+.PHONY: up down restart reset-db logs ps shell help test hurl-test run
 
 # Comando por defecto (ayuda)
 help:
@@ -12,6 +12,7 @@ help:
 	@echo "  make ps      - Lista el estado de los contenedores."
 	@echo "  make shell   - Entra al shell psql dentro del contenedor para hacer consultas."
 	@echo "  make clean   - Detiene y elimina con vervosidad."
+	@echo "  make reset-db - Borra la base local y vuelve a ejecutar schema.sql y seed.sql."
 	@echo "  make test    - Corre la suite de test del programa."
 	@echo "	 make run	  - Ejecuta el servidor en segundo plano y corre el archivo de pruebas hURL."
 	@echo "  make tp5-run - Corre el servidor, genera código asociado a los templates."
@@ -24,6 +25,10 @@ down:
 
 restart:
 	docker compose down && docker compose up -d
+
+reset-db:
+	docker compose down -v
+	docker compose up -d
 
 logs:
 	docker compose logs -f database

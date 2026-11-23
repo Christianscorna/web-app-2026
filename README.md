@@ -51,6 +51,10 @@ En esta entrega incorporamos HTMX para que algunas interacciones de la aplicaci�
 
 Este enfoque tambien ha sido tenido en cuenta para algunas partes de la administración de preguntas como es el caso de la bpusqueda que actualiza el listado de las materia seleccionada y que cuando se elimina una pregunta, con HTMX enviamos una solicitud DELETE con el id, entonces el servidor elimina la pregunta y responde con estado OK 200. 
 
+El que corrija este trabajo tiene que tener en cuenta tambien que las materias no se crean ni se destruyen (CRUD) porque son las que ya existen en el plan de estudios y eso cambia. Si solo encuentra 3 materias no se asuste porque simplemente es para podr probar la lógica y funcionamiento del proyecto. El visitante podrá administrar su propias preguntas, haciendo un CRUD completo sobre ellas mismas y jugar con lo que cargó al sistema. 
+
+Finalmente hemos decidido agregar una hoja que inserta preguntas en la base de datos para que el usuario pueda borrar, modificar, probar libremente sin necesidad de tener que agregar más si no quiere (Aunque siempre que quiera podrá hacerlo).
+
 ### Conclusión
 
 El objetivo de esta etapa fue acercar la experiencia de una aplicación renderizada en el servidor a la de una interfaz más reactiva, sin reemplazar Templ ni trasladar la lógica de la aplicación al navegador. HTMX coordina las solicitudes y los intercambios parciales de HTML; el servidor conserva la responsabilidad de procesar las acciones y generar las vistas. Así reutilizamos la lógica y los componentes existentes, y evitamos recargar toda la página en los flujos que adaptamos.
@@ -68,13 +72,14 @@ Este modo de organización permite organizar el código, facilitar su mantenimie
 
 Para ejecutar este proyecto es necesario tener instalado sqlc. Puedes descargarlo desde la terminal con los siguientes comandos. 
 
+> go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest <br>
 > go get gorm.io/gorm <br>
 > go get gorm.io/driver/postgres
 
 Tambien es necesario tener descargado templ. Puedes descargarlo con el siguiente comando:
 
-> go get github.com/a-h/templ
+> go install github.com/a-h/templ/cmd/templ@latest
 
 Puedes acceder a ambas dependencias desde `ls ~/go/bin/` y allí deberían figurar tanto sqlc como templ. 
 
-Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp6-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos.
+Descarga este proyecto y abrilo con una terminal bash. Luego simplemente párate en la raíz del proyecto, es decir en la carpeta tp-especial y corre: `make tp6-run` Si todo ha salido bien, deberías ver el proceso de levantado del servidor, base de datos, generación de códigos sqlc y templ y el servidor vivo escuchando en el puerto 8080. Al finalizar tus pruebas recuerda hacer `ctrl + c` para dar de baja el servidor y correr un `make down` para apagar el contenedor y volúmenes viejos. <br> Gracias por leer!
